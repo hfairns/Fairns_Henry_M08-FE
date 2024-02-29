@@ -1,0 +1,50 @@
+# Function to input employee names and salaries
+def input_employee_data():
+    names = []
+    salaries = []
+    
+    while True:
+        name = input("Enter employee name (or 'exit' to stop): ")
+        
+        if name.lower() == 'exit':
+            break
+        
+        salary = float(input("Enter employee salary (in thousands): "))
+        names.append(name)
+        salaries.append(salary)
+    
+    return names, salaries
+
+# Function to calculate the average salary
+def calculate_average_salary(salaries):
+    total_salary = sum(salaries)
+    average_salary = total_salary / len(salaries)
+    return average_salary
+
+# Function to find employees within 5,000 of the average salary
+def find_near_average_employees(names, salaries, average_salary):
+    near_average_employees = []
+
+    for i in range(len(names)):
+        if abs(salaries[i] - average_salary) <= 5:
+            near_average_employees.append((names[i], salaries[i]))
+
+    return near_average_employees
+
+# Main program
+employee_names, employee_salaries = input_employee_data()
+
+if not employee_names:
+    print("No data entered. Exiting.")
+else:
+    average_salary = calculate_average_salary(employee_salaries)
+    print(f"\nAverage Salary: {average_salary * 1000:.2f}\n")
+
+    near_average_employees = find_near_average_employees(employee_names, employee_salaries, average_salary)
+
+    if near_average_employees:
+        print("Employees with salaries within 5,000 of the average:")
+        for name, salary in near_average_employees:
+            print(f"{name}: {salary * 1000:.2f}")
+    else:
+        print("No employees found within 5,000 of the average.")
